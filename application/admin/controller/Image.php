@@ -19,7 +19,7 @@ class Image extends Controller
     }
     
     public function upload()
-    {   
+    {        
         $model= model('Image');
         if(Request::instance()->isPost()) //如果是POST提交
         {    // 获取经过过滤的全部post变量
@@ -32,7 +32,11 @@ class Image extends Controller
                 //获得文件名
                $data['image']= $info->getFilename();   
                //缩略图
-                
+               
+              // 获取当前请求中的文件上传对象(打开图片)
+               $thumb= \think\Image::open(request()->file('image'));
+            
+               
             }else{
                 // 上传失败获取错误信息
                 echo $file->getError();
