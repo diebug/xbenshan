@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-11-01 21:06:28
+Date: 2016-11-02 21:05:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,25 +22,23 @@ DROP TABLE IF EXISTS `x_image`;
 CREATE TABLE `x_image` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `image_title` varchar(60) NOT NULL COMMENT '图片标题',
+  `keywords` char(20) DEFAULT NULL COMMENT '图片关键字',
+  `image_desc` text COMMENT '图片描述',
   `image` varchar(150) NOT NULL DEFAULT '' COMMENT '图片',
   `thumb` varchar(150) NOT NULL DEFAULT '' COMMENT '图片缩略图',
-  `image_desc` text COMMENT '图片描述',
-  `is_on_sale` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否上架:是1 否 0',
   `category_id` mediumint(8) unsigned NOT NULL COMMENT '分类id',
   `create_time` int(10) unsigned DEFAULT '0' COMMENT '创建时间',
-  `keywords` char(20) DEFAULT NULL COMMENT '图片关键字',
   `update_time` int(10) DEFAULT '0' COMMENT '更新时间',
+  `is_on_sale` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否上架:是1 否 0',
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `is_on_sale` (`is_on_sale`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='图片表';
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COMMENT='图片表';
 
 -- ----------------------------
 -- Records of x_image
 -- ----------------------------
-INSERT INTO `x_image` VALUES ('9', '', '58970748edc620fe5e783e66d8c25fcb.jpg', '', null, '1', '0', '1477916264', null, '1477916264');
-INSERT INTO `x_image` VALUES ('10', '0123132', '2de1ecd1b37873223cfcff79bea09822.jpg', '', '79879', '1', '0', '1477917534', '456465', '1477917534');
-INSERT INTO `x_image` VALUES ('11', '789', '', '', '789', '1', '0', '1477917599', '789', '1477917599');
-INSERT INTO `x_image` VALUES ('12', '123', '2728e8a225eb6fee7ef2f62445a2f6c4.jpg', '', '123', '1', '0', '1477917642', '123', '1477917642');
-INSERT INTO `x_image` VALUES ('13', '', '8cbab2dd426b9996126b8e4e87500b70.jpg', '', '', '1', '0', '1478005192', '0', '1478005192');
-INSERT INTO `x_image` VALUES ('14', '', '65b49195f19933e7679cf65443c4871e.jpg', '', '', '1', '0', '1478005448', '0', '1478005448');
+INSERT INTO `x_image` VALUES ('26', '132', '123', '123', 'dcd12a70a7d885151a249e2f966a90cf.jpg', 's_dcd12a70a7d885151a249e2f966a90cf.jpg', '0', '1478077528', '0', '1');
+INSERT INTO `x_image` VALUES ('27', '', '0', '', '4391d53144639136a5ec886d477bc538.jpg', 's_4391d53144639136a5ec886d477bc538.jpg', '0', '1478078986', '0', '1');
+INSERT INTO `x_image` VALUES ('28', '', '0', '', '2173c6680893fe3bc3f410d274f6e2a4.jpg', 's_2173c6680893fe3bc3f410d274f6e2a4.jpg', '0', '1478091565', '0', '1');
+INSERT INTO `x_image` VALUES ('29', '', '0', '', '9d09e9e30fc82e9f3d399683b9b5fc13.jpg', 's_9d09e9e30fc82e9f3d399683b9b5fc13.jpg', '0', '1478091607', '0', '1');
