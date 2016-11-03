@@ -31,11 +31,11 @@
 </head>
 <body>
 <div class="page-container">
-	<form class="form form-horizontal" id="form-article-add" action="/admin/Image/imageAdd" method="post"  enctype="multipart/form-data">
+	<form class="form form-horizontal" id="form-article-add" action="/admin/Image/imageEdit" method="post"  enctype="multipart/form-data">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>图片标题：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="" name="image_title">
+				<input type="text" class="input-text" value="<?php echo $data['image_title'];?>" placeholder="" id="" name="image_title">
 			</div>
 		</div>
 		
@@ -67,13 +67,13 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">关键词：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="0" placeholder="" id="" name="keywords">
+				<input type="text" class="input-text" value="<?php echo $data['keywords'];?>" placeholder="" id="" name="keywords">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">图片描述：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="image_desc" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="textarealength(this,200)"></textarea>
+				<textarea name="image_desc" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="textarealength(this,200)"><?php echo $data['image_desc'];?></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
 			</div>
 		</div>
