@@ -45,7 +45,7 @@ class Image extends Controller
               // 获取当前请求中的文件上传对象(打开原图)
                $thumb= \think\Image::open(request()->file('image'));
                //缩略图保存路径
-               $thumb_path=ROOT_PATH . 'public' . DS . 'uploads/thumb/';
+               $thumb_path=ROOT_PATH . 'public' . DS . 'thumb/';
                //缩略图名
                $thumb->thumb(150, 150)->save($thumb_path.'s_'.$data['image']);
                //缩略图名称
@@ -88,6 +88,17 @@ class Image extends Controller
         } 
         $this->assign('data',$info);
         return $this->fetch();
+    }
+    
+    //图片信息删除
+    public function  imageDel()
+    {
+        $image_id = input('image_id');
+       
+        if(Db::table('x_image')->delete($image_id))
+             $this->success('删除成功', 'Image/imageList');
+        else
+             $this->error('删除失败', 'Image/imageList');
     }
     
 }
