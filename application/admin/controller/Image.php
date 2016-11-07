@@ -45,7 +45,7 @@ class Image extends Controller
               // 获取当前请求中的文件上传对象(打开原图)
                $thumb= \think\Image::open(request()->file('image'));
                //缩略图保存路径
-               $thumb_path=ROOT_PATH . 'public' . DS . 'thumb/';
+               $thumb_path=ROOT_PATH . 'public' . DS . 'thumb'.DS;
                //缩略图名
                $thumb->thumb(150, 150)->save($thumb_path.'s_'.$data['image']);
                //缩略图名称
