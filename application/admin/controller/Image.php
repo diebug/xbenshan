@@ -21,6 +21,7 @@ class Image extends Controller
             'data' => $data,
             'count' => $count
         ]);
+
         return $this->fetch();
     }
     //是否发布
@@ -62,7 +63,7 @@ class Image extends Controller
                //缩略图保存路径
                $thumb_path=ROOT_PATH . 'public' . DS . 'thumb'.DS;
                //缩略图名
-               $thumb->thumb(150, 150)->save($thumb_path.'s_'.$data['image']);
+               $thumb->thumb(50, 50)->save($thumb_path.'s_'.$data['image']);
                //缩略图名称
                $data['thumb']='s_'.$data['image'];
             }else{
@@ -115,6 +116,22 @@ class Image extends Controller
         else
              return false;
         exit;
+    }
+
+
+
+    //批量删除
+    public function  imageAllDel()
+    {
+      if(Request::instance()->isPost()){
+        $data=Request::instance()->post();
+        //var_dump($data['image_id']);die;
+        if(Db::table('x_image')->delete($data['image_id']))
+            return true;
+        else
+             return false;
+        exit;
+      }
     }
 
 }

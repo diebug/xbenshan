@@ -28,12 +28,18 @@
 <div class="page-container">
 
 
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius"  href="<?php echo url("admin/Image/imageAdd");?>"><i class="Hui-iconfont">&#xe600;</i> 添加图片</a></span> <span class="r">共有数据：<strong><?php echo $count ;?></strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="l">
+			<a href="javascript:;"   id="del_all"  class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+			<a class="btn btn-primary radius"  href="<?php echo url("admin/Image/imageAdd");?>"><i class="Hui-iconfont">&#xe600;</i> 添加图片</a>
+		</span>
+		<span class="r">共有数据：<strong><?php echo $count ;?></strong> 条</span>
+	</div>
 	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort">
+		<table class="table table-border table-bordered table-bg table-hover table-sort"  id="table">
 			<thead>
 				<tr class="text-c">
-					<th width="40"><input  type="checkbox" name="checkbox[]" value=""></th>
+					<th width="40"><input  type="checkbox" id="check_all" ></th>
 					<th width="80">ID</th>
 					<th width="100">分类</th>
 					<th width="100">缩略图</th>
@@ -60,8 +66,8 @@
 					</tr>
 				<?php else :?>
 					<?php foreach ($data as $v) :?>
-						<tr class="text-c">
-							<td><input  type="checkbox"  name="checkbox[]"  value="{$v.id}"></td>
+						<tr class="text-c"  >
+							<td><input  type="checkbox"  name="checkbox[]"  value="{$v.id}"  ></td>
 							<td><?php echo $v['id'];?></td>
 							<td>分类名称</td>
 							<td><a href="javascript:;" onClick="picture_edit('图库编辑','picture-show.html','10001')"><img width="100" class="picture-thumb" src="/thumb/<?php echo $v['thumb']?>"></a></td>
@@ -87,7 +93,7 @@
 						</tr>
 				<?php endforeach ;?>
 			<?php endif ;?>
-			</tbody>
+		</tbody>
 		</table>
 	</div>
 
@@ -99,7 +105,7 @@
 <script type="text/javascript" src="/static/Admin/Styles/static/h-ui/js/H-ui.js"></script>
 <script type="text/javascript" src="/static/Admin/Styles/static/h-ui.admin/js/H-ui.admin.js"></script>
 <?php if (count($data)!=0) : ?>
-<script type="text/javascript">
+<script type="text/javascript" >
 $('.table-sort').dataTable({
 	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
 	"bStateSave": true,//状态保存
@@ -108,6 +114,8 @@ $('.table-sort').dataTable({
 	  {"orderable":false,"aTargets":[0,8]}// 制定列不参与排序
 	]
 });
+
+
 /*图片-添加*/
 /*
 function picture_add(title,url){
@@ -223,6 +231,51 @@ function picture_del(obj,image_id){
 
 	});
 }
+
+	//全选
+$("table thead th input:checkbox").on("click" , function(){
+	$(this).closest("table").find("tr > td:first-child input:checkbox").prop("checked",$("table thead th input:checkbox").prop("checked"));
+		});
+
+
+
+	//批量删除
+$('#del_all').click(function(){
+	var check_num = $("input[name='checkbox[]']:checked").length;
+	if(check_num==0){
+		layer.alert('请至少选择一项',{icon:7,time:1600});
+		return false;
+	}else{
+		layer.confirm('确认要删除这几项吗？',function(index){
+			var array = new Array();
+			$("input[name='checkbox[]']:checked").each(function(){
+					//if(this.checked){
+				//	var id = ($(this).val());
+					array.push($(this).val());
+					var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+
+				//}
+				$.ajax({
+					type : "POST",
+					url  : "/admin/Image/imageAllDel",
+					data :{image_id : array.toString()},
+					success:function(del){
+						if(del){
+							layer.msg('已删除!',{icon:1,time:1000});
+						//	$(this).parents("tr").remove();
+						console.log(n);
+							$("table#table").find("tr:eq("+n+")").remove();
+						}
+					}
+				});
+			});
+
+
+		});
+	}
+});
+
+
 </script>
 <?php endif ;?>
 </body>
