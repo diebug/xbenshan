@@ -39,7 +39,16 @@
 		<table class="table table-border table-bordered table-bg table-hover table-sort"  id="table">
 			<thead>
 				<tr class="text-c">
-					<th width="40"><input  type="checkbox" id="check_all" ></th>
+					<!--<th width="40"><input  type="checkbox" id="check_all" ></th> -->
+					<th width="100" >
+						<div class="skin-minimal">
+							  <div class="check-box">
+								<label for="checkbox-1">全选</label>
+							    <input type="checkbox" id="check_all">
+							  </div>
+						</div>
+					</th>
+
 					<th width="80">ID</th>
 					<th width="100">分类</th>
 					<th width="100">缩略图</th>
@@ -67,7 +76,7 @@
 				<?php else :?>
 					<?php foreach ($data as $v) :?>
 						<tr class="text-c"  >
-							<td><input  type="checkbox"  name="checkbox[]"  value="{$v.id}"  ></td>
+							<td><input  type="checkbox"  name="checkbox[]"  value="{$v.id}" ></td>
 							<td><?php echo $v['id'];?></td>
 							<td>分类名称</td>
 							<td><a href="javascript:;" onClick="picture_edit('图库编辑','picture-show.html','10001')"><img width="100" class="picture-thumb" src="/thumb/<?php echo $v['thumb']?>"></a></td>
@@ -104,8 +113,16 @@
 <script type="text/javascript" src="/static/Admin/Styles/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/static/Admin/Styles/static/h-ui/js/H-ui.js"></script>
 <script type="text/javascript" src="/static/Admin/Styles/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type="text/javascript" src="/static/Admin/Styles/lib/icheck/jquery.icheck.min.js"></script>
 <?php if (count($data)!=0) : ?>
 <script type="text/javascript" >
+
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+
 $('.table-sort').dataTable({
 	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
 	"bStateSave": true,//状态保存
@@ -159,7 +176,7 @@ function picture_show(title,url,id){
 function picture_stop(obj,image_id){
 	layer.confirm('确认要下架吗？',function(index){
 		$.ajax({
-			type : "post",
+			type : "POST",
 			url  : "/admin/Image/isOnSale/image_id/"+image_id,
 			data :{image_id : image_id},
 			success:function(e){
@@ -179,7 +196,7 @@ function picture_stop(obj,image_id){
 function picture_start(obj,image_id){
 	layer.confirm('确认要发布吗？',function(index){
 		$.ajax({
-			type : "post",
+			type : "POST",
 			url  : "/admin/Image/isOnSale/image_id/"+image_id,
 			data :{image_id : image_id},
 			success:function(e){
@@ -233,9 +250,18 @@ function picture_del(obj,image_id){
 }
 
 	//全选
-$("table thead th input:checkbox").on("click" , function(){
-	$(this).closest("table").find("tr > td:first-child input:checkbox").prop("checked",$("table thead th input:checkbox").prop("checked"));
-		});
+$('#check_all').click(function(){
+	if($(this).prop('checked'))
+            {
+				  $("input[name='checkbox[]']").prop('checked', true);
+
+            }else {
+
+                 $("input[name='checkbox[]']").prop("checked", false);
+            }
+});
+
+//反选
 
 
 
@@ -252,7 +278,7 @@ $('#del_all').click(function(){
 					//if(this.checked){
 				//	var id = ($(this).val());
 					array.push($(this).val());
-					var n = $(this).parents("tr").index();  // 获取checkbox所在行的顺序
+
 
 				//}
 				$.ajax({
@@ -263,8 +289,8 @@ $('#del_all').click(function(){
 						if(del){
 							layer.msg('已删除!',{icon:1,time:1000});
 						//	$(this).parents("tr").remove();
-						console.log(n);
-							$("table#table").find("tr:eq("+n+")").remove();
+							$(":checked").parent().parent().remove();
+							 // $(this).parent().parent().remove();
 						}
 					}
 				});
